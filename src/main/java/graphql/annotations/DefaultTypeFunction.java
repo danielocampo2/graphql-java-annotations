@@ -226,7 +226,7 @@ public class DefaultTypeFunction implements TypeFunction {
         @Override
         public GraphQLType apply(Class<?> aClass, AnnotatedType annotatedType) {
             GraphQLName name = aClass.getAnnotation(GraphQLName.class);
-            String typeName = name == null ? aClass.getSimpleName() : name.value();
+            String typeName = name == null ? aClass.getSimpleName().replace(".", "").replace("$", "_") : name.value();
 
             if (types.containsKey(typeName)) {
                 return types.get(typeName);
@@ -282,7 +282,7 @@ public class DefaultTypeFunction implements TypeFunction {
         @Override
         public GraphQLType apply(Class<?> aClass, AnnotatedType annotatedType) {
             GraphQLName name = aClass.getAnnotation(GraphQLName.class);
-            String typeName = name == null ? aClass.getName() : name.value();
+            String typeName = name == null ? aClass.getName().replace(".", "").replace("$", "_") : name.value();
             if (types.containsKey(typeName)) {
                 return types.get(typeName);
             } else if (processing.containsKey(typeName)) {

@@ -14,10 +14,7 @@
  */
 package graphql.annotations;
 
-import graphql.relay.Base64;
-import graphql.relay.ConnectionCursor;
-import graphql.relay.Edge;
-import graphql.relay.PageInfo;
+import graphql.relay.*;
 import graphql.schema.DataFetcher;
 import graphql.schema.DataFetchingEnvironment;
 
@@ -37,7 +34,7 @@ public class StreamConnection implements DataFetcher, Connection {
 
     private Stream<Edge> buildEdges() {
         AtomicInteger ix = new AtomicInteger();
-        return stream.map(obj -> new Edge(obj, new ConnectionCursor(createCursor(ix.incrementAndGet()))));
+        return stream.map(obj -> new DefaultEdge(obj, new DefaultConnectionCursor(createCursor(ix.incrementAndGet()))));
     }
 
 
@@ -75,13 +72,13 @@ public class StreamConnection implements DataFetcher, Connection {
         Edge firstEdge = edges.get(0);
         Edge lastEdge = edges.get(edges.size() - 1);
 
-        PageInfo pageInfo = new PageInfo();
+        DefaultPageInfo pageInfo = new DefaultPageInfo();
         pageInfo.setStartCursor(firstEdge.getCursor());
         pageInfo.setEndCursor(lastEdge.getCursor());
         pageInfo.setHasPreviousPage(!firstEdge.getCursor().equals(firstPresliceCursor));
         pageInfo.setHasNextPage(!lastEdge.getCursor().equals(lastPresliceCursor));
 
-        graphql.relay.Connection connection = new graphql.relay.Connection();
+        DefaultConnection connection = new DefaultConnection();
         connection.setEdges(edges);
         connection.setPageInfo(pageInfo);
 
@@ -89,8 +86,8 @@ public class StreamConnection implements DataFetcher, Connection {
     }
 
     private graphql.relay.Connection emptyConnection() {
-        graphql.relay.Connection connection = new graphql.relay.Connection();
-        connection.setPageInfo(new PageInfo());
+        DefaultConnection connection = new DefaultConnection();
+        connection.setPageInfo(new DefaultPageInfo());
         return connection;
     }
 

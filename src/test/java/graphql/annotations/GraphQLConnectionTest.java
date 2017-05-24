@@ -16,6 +16,8 @@ package graphql.annotations;
 
 import graphql.ExecutionResult;
 import graphql.GraphQL;
+import graphql.relay.DefaultConnection;
+import graphql.relay.DefaultPageInfo;
 import graphql.relay.PageInfo;
 import graphql.schema.DataFetchingEnvironment;
 import graphql.schema.GraphQLObjectType;
@@ -134,9 +136,9 @@ public class GraphQLConnectionTest {
 
         @Override
         public Object get(DataFetchingEnvironment environment) {
-            graphql.relay.Connection connection = new graphql.relay.Connection();
+            DefaultConnection connection = new DefaultConnection();
             connection.setEdges(Collections.emptyList());
-            PageInfo pageInfo = new PageInfo();
+            PageInfo pageInfo = new DefaultPageInfo();
             connection.setPageInfo(pageInfo);
             return connection;
         }

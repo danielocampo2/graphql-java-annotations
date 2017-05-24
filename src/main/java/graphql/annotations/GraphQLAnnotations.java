@@ -15,22 +15,8 @@
 package graphql.annotations;
 
 import graphql.relay.Relay;
-import graphql.schema.DataFetcher;
-import graphql.schema.DataFetchingEnvironment;
-import graphql.schema.FieldDataFetcher;
-import graphql.schema.GraphQLArgument;
-import graphql.schema.GraphQLFieldDefinition;
-import graphql.schema.GraphQLInputObjectField;
-import graphql.schema.GraphQLInputObjectType;
-import graphql.schema.GraphQLInputType;
-import graphql.schema.GraphQLInterfaceType;
-import graphql.schema.GraphQLList;
+import graphql.schema.*;
 import graphql.schema.GraphQLNonNull;
-import graphql.schema.GraphQLObjectType;
-import graphql.schema.GraphQLOutputType;
-import graphql.schema.GraphQLUnionType;
-import graphql.schema.PropertyDataFetcher;
-import graphql.schema.TypeResolver;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -672,7 +658,7 @@ public class GraphQLAnnotations implements GraphQLAnnotationsProcessor {
         @Override
         public Object get(DataFetchingEnvironment environment) {
             // Exclude arguments
-            DataFetchingEnvironment env = new DataFetchingEnvironment(environment.getSource(), new HashMap<>(), environment.getContext(),
+            DataFetchingEnvironment env = new DataFetchingEnvironmentImpl(environment.getSource(), new HashMap<>(), environment.getContext(),
                     environment.getFields(), environment.getFieldType(), environment.getParentType(), environment.getGraphQLSchema());
             Connection conn = constructNewInstance(constructor, actualDataFetcher.get(env));
             return conn.get(environment);

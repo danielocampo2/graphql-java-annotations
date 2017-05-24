@@ -14,13 +14,11 @@
  */
 package graphql.annotations;
 
-import graphql.schema.DataFetchingEnvironment;
+import graphql.schema.DataFetchingEnvironmentImpl;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-
-import static org.testng.Assert.*;
 
 public class MethodDataFetcherTest {
 
@@ -33,7 +31,7 @@ public class MethodDataFetcherTest {
     public void exceptionRethrowing() {
         try {
             MethodDataFetcher methodDataFetcher = new MethodDataFetcher(getClass().getMethod("method"));
-            methodDataFetcher.get(new DataFetchingEnvironment(this, new HashMap<>(), null, new ArrayList<>(), null, null, null));
+            methodDataFetcher.get(new DataFetchingEnvironmentImpl(this, new HashMap<>(), null, new ArrayList<>(), null, null, null));
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         }
